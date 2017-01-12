@@ -31,14 +31,14 @@
 
     <!-- buttons -->
     <string name="button_close">Chiudere</string>
-    <string name="button_clear">Cancellare</string>
+    <string name="button_clear">Cancella</string>
     <string name="button_graph">Grafico</string>
     <string name="button_preset">Preimpostare</string>
     <string name="button_sms_test">Test SMS</string>
     <string name="button_gms_on">Accendere GSM</string>
-    <string name="button_sync">Sincronizzare</string>
-    <string name="button_connect">Connettere</string>
-    <string name="button_disconnect">Disconnettere</string>
+    <string name="button_sync">Sincronizza</string>
+    <string name="button_connect">Connetti</string>
+    <string name="button_disconnect">Disconnetti</string>
 
     <!-- state -->
     <string name="state_bt_not_available">Il dispositivo non dispone di un adattatore Bluetooth, non si può connettere</string>
@@ -94,9 +94,9 @@
     <string name="menu_load_disk">Caricare dal dispositivo Android</string>
     <string name="menu_save_disk">Salvare sul dispositivo Android</string>
     <string name="menu_read_device">Leggere dal dispositivo WMC</string>
-    <string name="menu_write_device">Scrivere al dispositivo WMC</string>
+    <string name="menu_write_device">Scrivere sul dispositivo WMC</string>
     <string name="menu_read_remote">Leggere dal server</string>
-    <string name="menu_write_remote">Scrivere al server</string>
+    <string name="menu_write_remote">Inviare al server</string>
 
     <string name="permission_required">Il consenso è necessario per fare uso di questa funzionalità.</string>
     <string name="intent_select_target">Selezionare una cartella e il nome del file per salvare la configurazione.</string>
