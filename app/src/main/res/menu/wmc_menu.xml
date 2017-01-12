@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/menu_config"
+        android:title="@string/menu_title"
+        app:showAsAction="ifRoom|withText">
+        <menu>
+            <group android:id="@+id/menu_group_load_save">
+                <item
+                    android:id="@+id/menu_load_config_from_disk"
+                    android:title="@string/menu_load_disk"/>
+                <item
+                    android:id="@+id/menu_save_config_to_disk"
+                    android:title="@string/menu_save_disk"/>
+            </group>
+            <group android:id="@+id/menu_group_read_write">
+                <item
+                    android:id="@+id/menu_read_config_from_device"
+                    android:title="@string/menu_read_device"/>
+                <item
+                    android:id="@+id/menu_write_config_to_device"
+                    android:title="@string/menu_write_device"/>
+            </group>
+        </menu>
+    </item>
+
+</menu>
