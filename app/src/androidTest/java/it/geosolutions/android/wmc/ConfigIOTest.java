@@ -70,7 +70,7 @@ public class ConfigIOTest {
 
             assertNotNull(readResult.second, readConf);
             assertNotNull(readResult.second);
-            assertEquals(readResult.second, "Configuration read with success");
+            assertEquals(readResult.second, context.getString(R.string.state_read_success));
 
             //now compare
 
@@ -110,6 +110,6 @@ public class ConfigIOTest {
         final Pair<Configuration, String> readResult = ConfigIO.readAndValidateConfig(context, xml);
 
         assertNotNull(readResult.second);
-        assertEquals(readResult.second, "Configuration read with success");
+        assertEquals(readResult.second, context.getString(R.string.state_read_success));
     }
 }

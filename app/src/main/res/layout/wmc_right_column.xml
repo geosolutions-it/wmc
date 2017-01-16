@@ -262,6 +262,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@drawable/bordered_button"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:padding="5dp">
 

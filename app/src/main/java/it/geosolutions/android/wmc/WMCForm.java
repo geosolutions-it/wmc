@@ -65,11 +65,7 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
 
     public final static String WMC_DEVICE_PREFIX = "wmc";
 
-    public final static String ARG_INFLATED = "inflated";
-    public final static String ARG_CONNECTED = "connected";
-    public final static String ARG_RSSI = "rssi";
-
-    private boolean debug = true; //debug uses mock WMC device
+    private boolean debug = false; //debug uses mock WMC device
 
     private final static int POLLING_INTERVAL = 1000;
     private final static int FIRST_POLLING_DELAY = 1000;
@@ -160,11 +156,6 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            this.inflated = savedInstanceState.getBoolean(ARG_INFLATED);
-            this.rssi = savedInstanceState.getInt(ARG_RSSI);
-        }
 
         setHasOptionsMenu(true);
     }
@@ -345,17 +336,6 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-
-        //TODO check when this is called
-
-        outState.putBoolean(ARG_INFLATED, this.inflated);
-        outState.putInt(ARG_RSSI, this.rssi);
-
-        super.onSaveInstanceState(outState);
     }
 
     /**
@@ -757,7 +737,6 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
             reportStatus(R.string.state_bt_not_available);
         } else {
             //get currently paired devices
-            //TODO apply filtering ?
             final ArrayList<BluetoothDevice> pairedDevices = BluetoothUtil.getPairedDevices(WMC_DEVICE_PREFIX);
 
             if (pairedDevices != null && pairedDevices.size() > 0) {
@@ -785,9 +764,13 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
         if (spinner.equals(deviceSpinner)) {
 
             final BluetoothDevice device = deviceAdapter.getItem(deviceSpinner.getSelectedItemPosition());
-            String deviceName = device.getName() == null ? "null " : device.getName();
-            statusTV.setText(getString(R.string.state_device_selected, deviceName));
-            selectedDevice = device;
+            if(device != null) {
+                String deviceName = device.getName() == null ? "null " : device.getName();
+                statusTV.setText(getString(R.string.state_device_selected, deviceName));
+                selectedDevice = device;
+            }else{
+                Log.w(TAG, "selected device from spinner was null");
+            }
 
         } else if (spinner.equals(typeSpinner)) {
 
@@ -1091,7 +1074,7 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
     /**
      * when a configuration was read this populates the form with the new configuration
      */
-    public void onConfigurationRead(final Configuration configuration, final String name) {
+    public void onConfigurationRead(final Configuration configuration) {
 
         if (configuration != null) {
             currentConfiguration = configuration;
@@ -1132,31 +1115,6 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
 
         executeWMCCommand(WMCCommand.DISCONNECT);
     }
-
-//    public void onDeviceDisconnected() {
-//
-//        Log.i(TAG, "onDeviceDisconnected, changing into disconnected mode");
-//
-//        if(getActivity() == null || getActivity().isFinishing()){
-//            //no need to update ui when we're closing
-//            return;
-//        }
-//
-//        hideProgress();
-//
-//        //1. re-enable device spinner
-//        deviceSpinner.setFocusable(true);
-//        //2. re-enable refresh button to update device list
-//        refreshButton.setFocusable(true);
-//        //3. rename connect button -> connect
-//        connectButton.setText(getString(R.string.button_connect));
-//
-//        clearForm();
-//        changeFormMode(false);
-//        reportStatus(getString(R.string.state_disconnected));
-//        getActivity().invalidateOptionsMenu();
-//        startDeviceSpinnerListening();
-//    }
 
     /////////////// COMMUNICATION//////////////////
 
@@ -1248,7 +1206,7 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
                 if (event.isSuccess()) {
                     final Configuration configuration = event.getConfiguration();
                     if (configuration != null) {
-                        onConfigurationRead(configuration, event.getDeviceName());
+                        onConfigurationRead(configuration);
                     }
                 } else {
                     reportStatus(R.string.state_read_failure);
@@ -1266,6 +1224,9 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
                     statusTV.setText(R.string.state_comm_error);
                     Log.w(TAG, "error polling");
                 } else {
+                    if(BuildConfig.DEBUG) {
+                        Log.i(TAG, "polling successful");
+                    }
                     final WMCReadResult readResult = event.getReadResult();
 
                     overallTotalEt.setText(String.format(Locale.US, "%.2f", readResult.overall_total));
@@ -1544,12 +1505,13 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
                     }
                     final BluetoothDevice device = getItem(position);
 
-                    /**
-                     * on windows the display name consists of serial port - bluetooth id - wmc id
-                     * on Android exist only the latter ones - address and name
-                     */
-                    //TODO how should the device name be built ???
-                    ((TextView) view).setText(String.format(Locale.getDefault(), "%s - %s", device.getAddress(), device.getName() == null ? "null" : device.getName()));
+                    if(device != null) {
+                        /**
+                         * on Windows the display name is made of serial port - bluetooth id - wmc id
+                         * on Android exist only the latter ones - address and name
+                         */
+                        ((TextView) view).setText(String.format(Locale.getDefault(), "%s - %s", device.getAddress(), device.getName() == null ? "null" : device.getName()));
+                    }
                     return view;
                 }
             };
@@ -1627,7 +1589,7 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
         this.debug = debug;
     }
 
-    public void setTest(final boolean test) {
+    public void setTest() {
 
         EventBus.getDefault().unregister(this);
     }

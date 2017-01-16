@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -56,10 +57,12 @@ public class WMCService extends Service implements WMCFacade.ConnectionListener{
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId){
+    public int onStartCommand(final Intent intent, int flags, int startId){
 
-        final boolean debug = intent.getBooleanExtra(PARAM_DEBUG, false);
-        final BluetoothDevice device = intent.getParcelableExtra(PARAM_DEVICE);
+        boolean debug = false;
+        if(intent != null && intent.hasExtra(PARAM_DEBUG)) {
+            debug = intent.getBooleanExtra(PARAM_DEBUG, false);
+        }
 
         if(debug) {
             wmc = new WMCMock(this);
@@ -70,6 +73,15 @@ public class WMCService extends Service implements WMCFacade.ConnectionListener{
         new AsyncTask<Void,Void,Void>(){
             @Override
             protected Void doInBackground(Void... params) {
+
+                BluetoothDevice device = null;
+                boolean debug = false;
+                if(intent != null && intent.hasExtra(PARAM_DEVICE)) {
+                    device = intent.getParcelableExtra(PARAM_DEVICE);
+                }
+                if(intent != null && intent.hasExtra(PARAM_DEBUG)) {
+                    debug = intent.getBooleanExtra(PARAM_DEBUG, false);
+                }
                 if (device != null) {
 
                     if(BuildConfig.DEBUG) {
@@ -221,7 +233,6 @@ public class WMCService extends Service implements WMCFacade.ConnectionListener{
 
                 EventBus.getDefault().post(resultEvent);
 
-                //TODO not in GeoCollect code, necessary ?
                 if(resultEvent.getCommand() == WMCCommand.DISCONNECT){
                     //disconnect
                     WMCService.this.stopSelf();
@@ -294,13 +305,14 @@ public class WMCService extends Service implements WMCFacade.ConnectionListener{
 
         final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
 
+        final int smallIconId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? R.drawable.not_icon : R.mipmap.ic_launcher;
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext())
                 .setContentTitle(getString(R.string.app_name))
                 .setAutoCancel(autoCancel)
                 .setOngoing(!autoCancel)
                 .setContentText(message)
-                //TODO use suitable icon
-                .setSmallIcon(R.mipmap.ic_launcher);
+                .setSmallIcon(smallIconId);
 
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }

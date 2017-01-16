@@ -25,6 +25,11 @@ import java.util.regex.Pattern;
 import it.geosolutions.android.wmc.model.Configuration;
 import it.geosolutions.android.wmc.util.ConfigIO;
 
+/**
+ * Activity that contains a WMC form fragment
+ *
+ * it handles the menu events and if necessary requests permissions
+ */
 
 public class WMCActivity extends AppCompatActivity  {
 
@@ -49,6 +54,10 @@ public class WMCActivity extends AppCompatActivity  {
 
         boolean destroy = true;
 
+        /**
+         * when connected ask the user if to disconnect or cancel this back button click
+         */
+
         if(getFormFragment().isConnected()) {
 
             //don't destroy now
@@ -70,6 +79,11 @@ public class WMCActivity extends AppCompatActivity  {
     /**
      ////////////// ANDROID 6 permissions /////////////////
      */
+    /**
+     * checks if the permission @param is granted and if not requests it
+     * @param permission
+     * @return
+     */
     public boolean permissionNecessary(final String permission) {
 
         boolean required = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
@@ -83,6 +97,12 @@ public class WMCActivity extends AppCompatActivity  {
         return false;
     }
 
+    /**
+     * returns the result of the permission request
+     * @param requestCode a requestCode
+     * @param permissions the requested permission
+     * @param grantResults the result of the user decision
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -93,6 +113,10 @@ public class WMCActivity extends AppCompatActivity  {
                 return;
             }
 
+            /**
+             * if the user did want to read or write to the file system earlier
+             * continue here
+             */
             if(fileSelection){
 
                 startFileSelectionIntent();

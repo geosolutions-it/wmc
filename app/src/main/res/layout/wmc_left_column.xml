@@ -139,13 +139,13 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="20dp"
-                android:layout_weight=".6" />
+                android:layout_weight=".55" />
 
             <Button
                 android:id="@+id/sync_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".4"
+                android:layout_weight=".45"
                 android:text="@string/button_sync" />
         </LinearLayout>
 
@@ -252,6 +252,8 @@
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="2dp"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
             <TextView
@@ -259,6 +261,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
+                android:layout_marginBottom="3dp"
                 android:text="@string/wmc_overall_preset"/>
 
             <EditText
@@ -285,20 +288,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
-                android:layout_weight=".4"
+                android:layout_weight=".45"
                 android:entries="@array/preset_values"/>
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="20dp"
-                android:layout_weight=".2"/>
+                android:layout_weight=".1"/>
 
             <Button
                 android:id="@+id/button_preset"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_weight=".4"
+                android:layout_weight=".45"
                 android:text="@string/button_preset"/>
 
         </LinearLayout>

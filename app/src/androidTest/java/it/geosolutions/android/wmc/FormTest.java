@@ -90,7 +90,7 @@ public class FormTest {
         //make sure the form uses the mock WMC, not a real device
         form.setDebug(true);
         //and it does not listen itself for WMC service events
-        form.setTest(true);
+        form.setTest();
 
         //"connect" - will only work if at least one paired device is available on the device
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
@@ -199,7 +199,7 @@ public class FormTest {
                 //now "connect"
                 form.hideProgress();
                 form.changeState(true, true);
-                form.onConfigurationRead(mockConf, "formTest");
+                form.onConfigurationRead(mockConf);
                 enabled = true;
 
                 //3.check form enabling

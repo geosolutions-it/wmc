@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -18,9 +19,9 @@ import it.geosolutions.android.wmc.model.Configuration;
 import it.geosolutions.android.wmc.model.WMCReadResult;
 import it.geosolutions.android.wmc.wmc.WMCFacade;
 import it.geosolutions.android.wmc.wmc.WMCImpl;
+import it.geosolutions.android.wmc.wmc.WMCMock;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -48,10 +49,10 @@ public class WMCCommunicationTest {
 
 
     @Test
-    public void testWMCCommunication(){
+    public void testWMCCommunication()  {
 
 
-        Log.i(TAG,"form test start");
+        Log.i(TAG,"wmc communication test start");
 
         final CountDownLatch latch = new CountDownLatch(1);
 
@@ -60,15 +61,15 @@ public class WMCCommunicationTest {
         final ArrayList<BluetoothDevice> pairedDevices = BluetoothUtil.getPairedDevices(WMCForm.WMC_DEVICE_PREFIX);
 
         assertNotNull(pairedDevices);
-        assertTrue(pairedDevices.size() > 1);
+        assertTrue(pairedDevices.size() >= 1);
 
         final BluetoothDevice device = pairedDevices.get(0);
-
-        assertTrue(device.getName().startsWith(WMCForm.WMC_DEVICE_PREFIX));
 
         wmc = new WMCImpl(mActivityRule.getActivity().getBaseContext(), new WMCFacade.ConnectionListener() {
             @Override
             public void onDeviceConnected(String name) {
+
+                Log.i(TAG,"wmc communication test device connected");
 
                 assertNotNull(wmc);
                 assertTrue(wmc.isConnected());
@@ -78,29 +79,94 @@ public class WMCCommunicationTest {
 
                 assertNotNull(deviceConfiguration);
 
-                //TODO read water data
+                sleep(100);
 
+                //read water data
                 final WMCReadResult readResult = wmc.read();
 
                 assertNotNull(readResult);
 
-                //TODO change config
+                sleep(100);
 
-                //TODO write config
-                //TODO read config and confirm changes are applied
+                //change config
+                final Configuration mockConfiguration = WMCMock.getMockConfiguration();
+
+                //write config
+                boolean success = wmc.writeConfig(mockConfiguration);
+
+                assertTrue(success);
+
+                Log.i(TAG,"wmc config test success");
+
+                sleep(100);
+
+                final Configuration editedConfiguration = wmc.readConfig();
+
+                Log.i(TAG,"read edited config success");
+
+                //read written config and confirm changes are applied
+                assertEquals(mockConfiguration.ntpAddress, editedConfiguration.ntpAddress);
+                assertEquals(mockConfiguration.timerSlot1Start, editedConfiguration.timerSlot1Start);
+                assertEquals(mockConfiguration.recipientNum, editedConfiguration.recipientNum);
+                assertEquals(mockConfiguration.siteCode, editedConfiguration.siteCode);
+                assertEquals(mockConfiguration.sensorType, editedConfiguration.sensorType);
+
+                Log.i(TAG,"compared configs success");
+
+                sleep(200);
 
                 //write hour
+                final Calendar c = Calendar.getInstance();
+                wmc.syncTime();
                 //read hour and check changes are applied
 
-                //todo write preset
-                //todo read preset and compare
+                sleep(200);
 
-                //todo clear weak index
-                //TODO read and ensure week for cleared index is cleared
+                Log.i(TAG,"sync time requested");
 
-                //Not testes
+                final WMCReadResult nextReadResult = wmc.read();
+
+                //the dates should be nearly equal
+                assertTrue(nextReadResult.date.compareTo(c.getTime()) < 100);
+
+                Log.i(TAG,"compare date test success");
+
+                sleep(100);
+
+                double preset = 123456.0d;
+                //write preset
+                wmc.presetOverallCounter(preset);
+
+                sleep(100);
+
+                //read preset and compare
+                final WMCReadResult thirdReadResult = wmc.read();
+                assertEquals(preset, thirdReadResult.overall_total, 0.1f);
+
+                Log.i(TAG,"preset test success");
+
+                sleep(100);
+
+                //clear weak index
+                wmc.clear(0);
+
+                sleep(100);
+
+                //read and ensure week for cleared index is cleared
+                final WMCReadResult anotherReadResult = wmc.read();
+                assertEquals( 0f, anotherReadResult.week_Slot1[1], 0.01d);
+                Log.i(TAG,"clear weak index test success");
+
+                //Not tested as no SIM may be available
                 //1. send sms test
                 //2. activate GSM as it may take up to 40 seconds until result is available
+
+                //cleanup
+                sleep(100);
+                //write the initial configuration
+                wmc.writeConfig(deviceConfiguration);
+
+                sleep(100);
 
                 //finally
                 wmc.disConnect();
@@ -110,8 +176,6 @@ public class WMCCommunicationTest {
             public void onDeviceDisconnected() {
 
                 Log.i(TAG,"disconnected");
-
-                assertFalse(wmc.isConnected());
                 latch.countDown();
 
             }
@@ -121,6 +185,14 @@ public class WMCCommunicationTest {
 
                 fail("Connection failed");
             }
+
+            private void sleep(int duration){
+                try {
+                    Thread.sleep(duration);
+                }catch (InterruptedException e){
+                    Log.e("WMCCommTest", "thread sleep interrupted");
+                }
+            }
         });
 
         wmc.connect(device);
@@ -128,13 +200,24 @@ public class WMCCommunicationTest {
 
 
         try {
-            assertTrue("WMC communication test time expired", latch.await(TEST_MAX_DURATION_SEC, TimeUnit.SECONDS));
+            boolean success = latch.await(TEST_MAX_DURATION_SEC, TimeUnit.SECONDS);
+            assertTrue("WMC communication test time expired", success);
 
-            Log.i(TAG,"WMC communication test successfully terminated");
+            if(!success){
+                if(wmc.isConnected()){
+                    wmc.disConnect();
+                }
+            }else{
+
+                Log.i(TAG,"WMC communication test successfully terminated");
+            }
+
         } catch (InterruptedException e) {
             fail("timeout exceeded");
+            if(wmc.isConnected()){
+                wmc.disConnect();
+            }
         }
-
     }
 
 }
