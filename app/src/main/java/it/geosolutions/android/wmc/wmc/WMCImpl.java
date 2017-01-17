@@ -210,6 +210,12 @@ public class WMCImpl implements WMCFacade  {
                 Log.i(TAG, String.format("read orig num %s", config.originNum));
             }
 
+            if (config.version >= 0x200) {
+                config.digits = values[idx++];
+            }else{
+                config.digits = 6;
+            }
+
 
             //done
             return config;

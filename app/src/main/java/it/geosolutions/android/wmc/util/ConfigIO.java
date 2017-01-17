@@ -260,7 +260,10 @@ public class ConfigIO {
             serializer.endTag("", NTPADDRESS);
 
             serializer.startTag("", DIGITS);
-            if(config.digits != 0) {
+            if(config.digits == 0 || config.digits < 6 || config.digits > 8){
+                //not set or invalid, use default 6
+                serializer.text(Integer.toString(6));
+            }else{
                 serializer.text(Integer.toString(config.digits));
             }
             serializer.endTag("", DIGITS);

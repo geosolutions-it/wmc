@@ -367,6 +367,7 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
     private void startFormListening() {
 
         postSpinner(typeSpinner);
+        postSpinner(digitsSpinner);
 
         sideCodeEt.addTextChangedListener(this);
         sensorLitresRoundEt.addTextChangedListener(this);
@@ -390,6 +391,7 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
     private void stopFormListening() {
 
         typeSpinner.setOnItemSelectedListener(null);
+        digitsSpinner.setOnItemSelectedListener(null);
 
         sideCodeEt.removeTextChangedListener(this);
         sensorLitresRoundEt.removeTextChangedListener(this);
@@ -783,6 +785,23 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
                 //enable/disable const editText according to device type
                 sensorLFConstEt.setEnabled(currentConfiguration.sensorType != 1);
                 reportStatus(R.string.state_sensor_type_changed);
+            }
+        } else if (spinner.equals(digitsSpinner)) {
+            if (currentConfiguration != null) {
+                switch (digitsSpinner.getSelectedItemPosition()) {
+                    case 0:
+                        currentConfiguration.digits = 6;
+                        break;
+                    case 1:
+                        currentConfiguration.digits = 7;
+                        break;
+                    case 2:
+                        currentConfiguration.digits = 8;
+                        break;
+                    default:
+                        currentConfiguration.digits = 6;
+                        break;
+                }
             }
         }
     }
