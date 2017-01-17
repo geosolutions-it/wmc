@@ -592,8 +592,8 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
         sideCodeEt.setText(String.format(Locale.getDefault(), "%04d", config.siteCode));
         updateDeliveryAccordingToSiteCode(config.siteCode);
 
-        //digits
-        if (config.version >= 0x200) {
+        //digits, if there is no version, the configuration is read from file
+        if (config.version == 0 || config.version >= 0x200) {
             //enable and set according to config
             digitsSpinner.setEnabled(true);
 

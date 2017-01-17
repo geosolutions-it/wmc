@@ -23,6 +23,7 @@ public class Configuration {
     public final static int WEEKDAY_ARRAY_LENGTH = 8;
 
     public int signature;
+    // Default is zero
     public int version;
 
     public int siteCode;
