@@ -32,21 +32,21 @@ public class ConfigIO {
     private final static String TAG = "XMLConfigParser";
 
     private final static String CONFIGURATION = "Configuration";
-    private final static String SITECODE = "siteCode";
-    private final static String TIMEZONE = "timeZone";
-    private final static String SENSORTYPE = "sensorType";
+    private final static String SITECODE = "SiteCode";
+    private final static String TIMEZONE = "TimeZone";
+    private final static String SENSORTYPE = "SensorType";
     private final static String SENSOR_LITRES_PER_ROUND = "SensorLitresPerRound";
-    private final static String SENSORCONST = "sensor_LF_Const";
+    private final static String SENSORCONST = "SensorConst";
     private final static String TIMERSLOT_1_START = "TimerSlot1Start";
     private final static String TIMERSLOT_1_STOP  = "TimerSlot1Stop";
     private final static String TIMERSLOT_2_START = "TimerSlot2Start";
     private final static String TIMERSLOT_2_STOP  = "TimerSlot2Stop";
-    private final static String PROVIDER = "provider";
-    private final static String PINCODE = "pinCode";
-    private final static String RECIPIENT = "Recipient";
-    private final static String ORIGINNUM = "originNum";
-    private final static String NTPADDRESS = "ntpAddress";
-    private final static String DIGITS = "digits";
+    private final static String PROVIDER = "Provider";
+    private final static String PINCODE = "PinCode";
+    private final static String RECIPIENT = "RecipientNum";
+    private final static String ORIGINNUM = "OriginNum";
+    private final static String NTPADDRESS = "NtpAddress";
+    private final static String DIGITS = "Digits";
 
     /**
      ////////////// CONFIG read/write local/server /////////////////
@@ -179,7 +179,7 @@ public class ConfigIO {
             //TODO what are invalid values ? 0 for all, also timezone ?
             serializer.startTag("", SITECODE);
             if(config.siteCode != 0) {
-                serializer.text(Integer.toString(config.siteCode));
+                serializer.text(String.format("%04d", config.siteCode));
             }
             serializer.endTag("", SITECODE);
 
