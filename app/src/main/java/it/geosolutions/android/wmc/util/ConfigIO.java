@@ -188,9 +188,7 @@ public class ConfigIO {
             serializer.endTag("", TIMEZONE);
 
             serializer.startTag("", SENSORTYPE);
-            if(config.sensorType > -1) {
-                serializer.text(Integer.toString(config.sensorType));
-            }
+            serializer.text(Integer.toString((config.sensorType > 0) ? config.sensorType : 0));
             serializer.endTag("", SENSORTYPE);
 
             serializer.startTag("", SENSOR_LITRES_PER_ROUND);
