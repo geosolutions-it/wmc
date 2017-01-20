@@ -50,7 +50,7 @@
     <string name="state_connect_failure">Errore di connessione al dispositivo Bluetooth %s</string>
     <string name="state_connection_active">Connessione attiva a %s</string>
     <string name="state_disconnected">Disconnesso dal dispositivo WMC</string>
-    <string name="state_sensor_type_changed">La modifica sarà effettiva quando la configurazione viene trasmessa al dispositivo</string>
+    <string name="state_sensor_type_changed">La modifica sarà effettiva dopo la disconnessione del dispositivo</string>
     <string name="state_write_success">Configurazione scritta con successo</string>
     <string name="state_write_failure">Errore di scrittura della configurazione</string>
     <string name="state_read_success">Configurazione letta con successo</string>
@@ -86,7 +86,7 @@
     <string name="state_lf_const_null">LF const. é nulla</string>
     <string name="state_lf_const_oob">LF const. deve essere &gt; 0 and &lt; 1000</string>
     <string name="state_incorrect_input">Input non corretto</string>
-    <string name="state_active_connection">Tu hai una connessione attiva al dispositivo WMC. Ti vuoi disconnettere ?</string>
+    <string name="state_active_connection">Hai una connessione attiva al dispositivo WMC. Tutte le modifiche non inviate saranno perse. Ti vuoi disconnettere ?</string>
 
     <string name="progress_please_wait">Attendere prego &#8230;</string>
 

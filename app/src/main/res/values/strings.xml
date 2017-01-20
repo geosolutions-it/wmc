@@ -50,7 +50,7 @@
     <string name="state_connect_failure">Error connecting to Bluetooth device %s</string>
     <string name="state_connection_active">Active connection to %s</string>
     <string name="state_disconnected">Disconnected from WMC device</string>
-    <string name="state_sensor_type_changed">The change will be effective when writing the configuration to the device</string>
+    <string name="state_sensor_type_changed">The change will be effective when you will disconnect</string>
     <string name="state_write_success">Configuration written with success</string>
     <string name="state_write_failure">Error writing configuration</string>
     <string name="state_read_success">Configuration read with success</string>
