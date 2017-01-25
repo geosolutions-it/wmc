@@ -68,7 +68,7 @@ public class WMCActivity extends AppCompatActivity  {
                 public void onDisconnect() {
                     WMCActivity.super.onBackPressed();
                 }
-            });
+            }, R.string.state_active_connection);
 
         }
         if(destroy){

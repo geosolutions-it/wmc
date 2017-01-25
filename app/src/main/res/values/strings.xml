@@ -86,7 +86,8 @@
     <string name="state_lf_const_null">LF const. is void</string>
     <string name="state_lf_const_oob">LF const. must be &gt; 0 and &lt; 1000</string>
     <string name="state_incorrect_input">Incorrect input</string>
-    <string name="state_active_connection">You have an active connection to a WMC device. Do you want to disconnect and finish the app ?</string>
+    <string name="state_active_connection">You have an active connection to a WMC device. All non-saved changes will be discarded. Do you want to disconnect and close the app?</string>
+    <string name="before_disconnect">All non-saved changes will be discarded. Do you want to disconnect?</string>
 
     <string name="progress_please_wait">Please wait &#8230;</string>
 

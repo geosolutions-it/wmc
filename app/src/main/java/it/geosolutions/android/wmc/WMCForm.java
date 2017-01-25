@@ -766,11 +766,11 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
         if (spinner.equals(deviceSpinner)) {
 
             final BluetoothDevice device = deviceAdapter.getItem(deviceSpinner.getSelectedItemPosition());
-            if(device != null) {
+            if (device != null) {
                 String deviceName = device.getName() == null ? "null " : device.getName();
                 statusTV.setText(getString(R.string.state_device_selected, deviceName));
                 selectedDevice = device;
-            }else{
+            } else {
                 Log.w(TAG, "selected device from spinner was null");
             }
 
@@ -976,8 +976,15 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
         if (v.equals(connectButton)) {
             //already connected ?
             if (isConnected()) {
-                // --> disconnect
-                disconnect(true);
+
+                showAskForDisconnectDialog(getContext(), new WMCForm.OnDisconnectListener() {
+                    @Override
+                    public void onDisconnect() {
+                        // --> disconnect
+                        disconnect(true);
+                    }
+                }, R.string.before_disconnect);
+
 
             } else {
                 // --> connect
@@ -1129,10 +1136,11 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
             showProgressDialog();
         } else {
             //wont receive events
-            this.connected = false;
+            connected = false;
         }
 
         executeWMCCommand(WMCCommand.DISCONNECT);
+
     }
 
     /////////////// COMMUNICATION//////////////////
@@ -1243,7 +1251,7 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
                     statusTV.setText(R.string.state_comm_error);
                     Log.w(TAG, "error polling");
                 } else {
-                    if(BuildConfig.DEBUG) {
+                    if (BuildConfig.DEBUG) {
                         Log.i(TAG, "polling successful");
                     }
                     final WMCReadResult readResult = event.getReadResult();
@@ -1463,12 +1471,14 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
      * @param context  context to show dialog
      * @param listener to inform subscribers that the user selected disconnection
      */
-    public void showAskForDisconnectDialog(final Context context, final OnDisconnectListener listener) {
+    public void showAskForDisconnectDialog(final Context context, final OnDisconnectListener listener, int messageId) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(false);
         builder.setTitle(R.string.app_name);
-        builder.setMessage(R.string.state_active_connection);
+        if (messageId != 0) {
+            builder.setMessage(messageId);
+        }
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
@@ -1524,7 +1534,7 @@ public class WMCForm extends Fragment implements View.OnClickListener, AdapterVi
                     }
                     final BluetoothDevice device = getItem(position);
 
-                    if(device != null) {
+                    if (device != null) {
                         /**
                          * on Windows the display name is made of serial port - bluetooth id - wmc id
                          * on Android exist only the latter ones - address and name
