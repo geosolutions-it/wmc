@@ -3,30 +3,30 @@
     <string name="app_name">WMC</string>
 
     <!-- Form titles -->
-    <string name="wmc_site">Luogo</string>
+    <string name="wmc_site">Riferimenti</string>
     <string name="wmc_code">Codice</string>
     <string name="wmc_sensor">Sensore</string>
     <string name="wmc_type">Tipo</string>
     <string name="wmc_curr_time">Ora attuale</string>
     <string name="wmc_curr_date">Data odierna</string>
-    <string name="wmc_delivery">Consegna</string>
+    <string name="wmc_delivery">Orario invio</string>
     <string name="wmc_hf">HF [Vr]</string>
     <string name="wmc_k_const">K Const.</string>
     <string name="wmc_communication">Comunicazione</string>
-    <string name="wmc_overall">Contatore complessivo [m3]</string>
+    <string name="wmc_overall">Conteggi complessivi [m3]</string>
     <string name="wmc_total">Totale</string>
     <string name="wmc_ts_title">Fasce orarie [h]</string>
     <string name="wmc_ts_1">Fascia oraria 1</string>
     <string name="wmc_ts_2">Fascia oraria 2</string>
-    <string name="wmc_overall_preset">Preimpostazione complessiva</string>
-    <string name="wmc_provider">Fornitore</string>
+    <string name="wmc_overall_preset">Preimpostazione totale</string>
+    <string name="wmc_provider">APN fornitore</string>
     <string name="wmc_pin_code">Codice Pin</string>
-    <string name="wmc_sms_rec">Destinatario SMS</string>
-    <string name="wmc_sms_origin">Origine SMS</string>
-    <string name="wmc_time_server">Orario server</string>
+    <string name="wmc_sms_rec">Destinatario SMS dati</string>
+    <string name="wmc_sms_origin">Destinatario SMS test</string>
+    <string name="wmc_time_server">Server sincronizzazione</string>
     <string name="wmc_counter">Contatore</string>
     <string name="wmc_rssi">GSM RSSI</string>
-    <string name="wmc_sms_test">Ricevitore test SMS</string>
+    <string name="wmc_sms_test">Destinatario SMS online</string>
     <string name="wmc_device">Dispositivo</string>
 
     <!-- buttons -->
@@ -34,8 +34,8 @@
     <string name="button_clear">Cancella</string>
     <string name="button_graph">Grafico</string>
     <string name="button_preset">Preimpostare</string>
-    <string name="button_sms_test">Test SMS</string>
-    <string name="button_gms_on">Accendere GSM</string>
+    <string name="button_sms_test">Invio SMS</string>
+    <string name="button_gms_on">Accensione GSM</string>
     <string name="button_sync">Sincronizza</string>
     <string name="button_connect">Connetti</string>
     <string name="button_disconnect">Disconnetti</string>
@@ -68,7 +68,7 @@
     <string name="state_test_sms_invalid">Numero del destinatario test SMS non é valido</string>
     <string name="state_comm_error">Errore di comunicazione</string>
     <string name="state_recipient_null">Il destinatario é nullo</string>
-    <string name="state_provider_null">Il fornitore è nullo</string>
+    <string name="state_provider_null">APN fornitore è nullo</string>
     <string name="state_origin_null">L\'origine è nulla</string>
     <string name="state_time_server_invalid">Indirizzo del server ora non é corretto</string>
     <string name="state_pin_code_invalid">Il codice Pin non é valido</string>
@@ -106,6 +106,8 @@
     <string name="modbus_crc_error">Errore CRC</string>
     <string name="modbus_success">Scritto con successo</string>
     <string name="modbus_io_error">Errore durante la communicazione con il dispositivo</string>
+    <string name="begin">Inizio</string>
+    <string name="end">Fine</string>
 
 
 </resources>

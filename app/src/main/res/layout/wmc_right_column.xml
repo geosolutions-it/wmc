@@ -294,7 +294,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
                 android:gravity="center_horizontal"
-                android:text="B"/>
+                android:text="@string/begin"/>
 
             <TextView
                 android:id="@+id/ts_e"
@@ -302,7 +302,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
                 android:gravity="center_horizontal"
-                android:text="E"/>
+                android:text="@string/end"/>
         </LinearLayout>
 
         <LinearLayout

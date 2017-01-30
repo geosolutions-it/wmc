@@ -19,10 +19,10 @@
     <string name="wmc_ts_1">Time Slot 1</string>
     <string name="wmc_ts_2">Time Slot 2</string>
     <string name="wmc_overall_preset">Overall Preset</string>
-    <string name="wmc_provider">Provider</string>
+    <string name="wmc_provider">Provider APN</string>
     <string name="wmc_pin_code">Pin Code</string>
     <string name="wmc_sms_rec">SMS Recipient</string>
-    <string name="wmc_sms_origin">SMS Origin</string>
+    <string name="wmc_sms_origin">SMS test recipient</string>
     <string name="wmc_time_server">Time Server</string>
     <string name="wmc_counter">Counter</string>
     <string name="wmc_rssi">GSM RSSI</string>
@@ -68,7 +68,7 @@
     <string name="state_test_sms_invalid">SMS test recipient is invalid</string>
     <string name="state_comm_error">Communication error</string>
     <string name="state_recipient_null">Recipient is void</string>
-    <string name="state_provider_null">Provider is void</string>
+    <string name="state_provider_null">Provider APN is void</string>
     <string name="state_origin_null">Origin is void</string>
     <string name="state_time_server_invalid">Time server is incorrect</string>
     <string name="state_pin_code_invalid">Pin code is invalid</string>
@@ -106,6 +106,8 @@
     <string name="modbus_crc_error">CRC error</string>
     <string name="modbus_success">Write successful</string>
     <string name="modbus_io_error">Error during device I/O</string>
+    <string name="begin">Begin</string>
+    <string name="end">End</string>
 
 
 </resources>
